@@ -2,6 +2,9 @@
 
 > **"A privacy-first, dual-spectrum autonomous agent running locally on Raspberry Pi 4B."**
 
+![Nemo Multimodal Edge AI](nemo_test.jpeg)
+
+
 **Nemo's Vision** is an experiment in **multimodal orchestration on the edge**. It combines real-time object detection, small language models (SLMs), and text-to-speech (TTS) into a single autonomous loop, running entirely on a standard Raspberry Pi 4B (8GB).
 
 Unlike cloud-based solutions, Nemo processes dual video streams and generates contextual narration entirely on-device without any external accelerators (no Hailo, no Coral, no GPU). To achieve near real-time performance on a Cortex-A72 CPU, we moved away from monolithic Vision Language Models (VLMs) in favor of a modular, orchestrated pipeline.
