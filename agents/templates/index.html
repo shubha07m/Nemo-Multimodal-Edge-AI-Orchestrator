@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nemo's World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* --- CUTE THEME: Clownfish Orange & Ocean Blue --- */
+        :root {
+            --bg-color: #E0F7FA;       /* Light Ocean Blue */
+            --text-color: #006064;     /* Deep Teal */
+            --box-bg: #FFFFFF;         /* White */
+            --border-color: #FF7043;   /* Nemo Orange */
+            --accent: #FFAB91;         /* Soft Orange */
+        }
+
+        body { 
+            background: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: 'Verdana', 'Segoe UI', sans-serif; 
+            text-align: center; 
+            margin: 0; 
+            padding: 20px;
+        }
+
+        h1 { 
+            color: var(--border-color); 
+            font-size: 2.5em; 
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px #fff;
+        }
+
+        /* --- THE EYES (Camera Boxes) --- */
+        .playground {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .eye-card {
+            background: var(--box-bg);
+            border: 5px solid var(--border-color);
+            border-radius: 25px; /* Super rounded corners */
+            padding: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .eye-label {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            display: block;
+            color: var(--border-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        img { 
+            width: 100%; 
+            border-radius: 15px; 
+            display: block; 
+            background: #eee;
+        }
+
+        /* --- THE SPEECH BUBBLE --- */
+        .speech-bubble {
+            background: white;
+            border: 4px solid var(--text-color);
+            border-radius: 20px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.3em;
+            position: relative;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.1);
+        }
+        
+        /* Little triangle for the speech bubble */
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border: 20px solid transparent;
+            border-bottom-color: var(--text-color);
+            border-top: 0;
+            border-left: 0;
+            margin-left: -10px;
+            margin-top: -20px;
+        }
+
+        /* --- BUTTONS --- */
+        button {
+            background: var(--border-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1em;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            transition: transform 0.1s;
+        }
+        button:active { transform: scale(0.95); }
+        button:hover { background: #FF5722; }
+
+    </style>
+</head>
+<body>
+
+    <h1>🐠 Nemo's Vision 🐠</h1>
+    
+    <button id="audio-btn" onclick="enableAudio()">🔊 Click to Enable Voice</button>
+
+    <div class="playground">
+        <div class="eye-card">
+            <span class="eye-label">RGB Eye ☀️</span>
+            <img src="/feed_rgb" alt="RGB Feed">
+        </div>
+
+        <div class="eye-card">
+            <span class="eye-label">NoIR Eye 🌙</span>
+            <img src="/feed_noir" alt="NoIR Feed">
+        </div>
+    </div>
+
+    <div class="speech-bubble">
+        <span id="caption">... waking up ...</span>
+    </div>
+
+    <script>
+        let lastAudioId = 0;
+        let audioEnabled = false;
+
+        function enableAudio() {
+            audioEnabled = true;
+            let btn = document.getElementById('audio-btn');
+            btn.innerText = "✅ Voice Active";
+            btn.style.background = "#4CAF50"; // Green
+            
+            // Unlock audio context
+            let dummy = new Audio();
+            dummy.play().catch(e => console.log("Unlock check", e));
+        }
+
+        function checkStatus() {
+            fetch('/status').then(r => r.json()).then(data => {
+                document.getElementById('caption').innerText = "“ " + data.caption + " ”";
+                
+                if (data.audio_id > lastAudioId) {
+                    lastAudioId = data.audio_id;
+                    if (audioEnabled) {
+                        // Cache buster '?t=' ensures we always get the new file
+                        let audio = new Audio('/latest_audio?t=' + Date.now());
+                        audio.play().catch(e => console.log("Audio block:", e));
+                    }
+                }
+            });
+        }
+        // Poll every 1 second
+        setInterval(checkStatus, 1000);
+    </script>
+</body>
+</html>
