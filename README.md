@@ -2,7 +2,7 @@
 
 > **"A privacy-first, dual-spectrum autonomous agent running locally on Raspberry Pi 4B."**
 
-![Nemo Multimodal Edge AI](nemo_test.jpeg)
+![Nemo Multimodal Edge AI](https://github.com/shubha07m/Nemo-Multimodal-Edge-AI-Orchestrator/blob/005a6c3f677434225c85037e5131ec40e4a8817a/nemo_test.jpg)
 
 
 **Nemo's Vision** is an experiment in **multimodal orchestration on the edge**. It combines real-time object detection, small language models (SLMs), and text-to-speech (TTS) into a single autonomous loop, running entirely on a standard Raspberry Pi 4B (8GB).
