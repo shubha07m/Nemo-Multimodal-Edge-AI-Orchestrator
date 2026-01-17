@@ -4,7 +4,7 @@
 SERVICE_NAME="nemo-reflex"
 USER="nemo"
 WORKING_DIR="/home/nemo/Desktop/my_projects/explorer/nemo_reflex/agents"
-PYTHON_EXEC="/home/nemo/miniforge3/envs/nemo_reflex/bin/python"
+PYTHON_EXEC="/home/nemo/miniforge3/envs/robot/bin/python"
 MAIN_SCRIPT="main.py"
 
 echo "--- Installing Nemo Reflex Service ---"
